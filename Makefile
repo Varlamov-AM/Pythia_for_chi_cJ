@@ -28,7 +28,7 @@ LDFLAGS1 := $(shell root-config --ldflags --glibs) \
 LDFLAGS2 := $(shell root-config --ldflags --glibs) \
   -L$(PYTHIA8)/lib -lpythia8210 -llhapdf $(LIBGZIP)
 
-FILES_SRC =   pythia_chic2.cc IsElectronDetectedInALICE3.cc Jpsi_Mass.cc Jpsi_Sigma.cc Background_handler.cc smearE.cc smearP.cc smearX.cc sigmaX.cc resolutionPhoton.cc resolutionElectron.cc IsElectronDetectedInCTS.cc IsPhotonDetectedInPHOS.cc IsPhotonDetectedInEMCAL.cc IsTriggeredByPHOS.cc Init.cc Invariant_mass_spectr_creator.cc
+FILES_SRC =   pythia_chic2.cc Signal_event_handler.cc ROOT_file_creator.cc Histogram_creator.cc IsElectronDetectedInALICE3.cc Jpsi_Mass.cc Jpsi_Sigma.cc Background_handler.cc smearE.cc smearP.cc smearX.cc sigmaX.cc resolutionPhoton.cc resolutionElectron.cc IsElectronDetectedInCTS.cc IsPhotonDetectedInPHOS.cc IsPhotonDetectedInEMCAL.cc IsTriggeredByPHOS.cc Init.cc Invariant_mass_spectr_creator.cc
 FILES_OBJ =  $(FILES_SRC:%.cc=%.o)
 
 # Default target; make examples (but not shared dictionary)
