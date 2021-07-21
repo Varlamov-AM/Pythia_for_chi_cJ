@@ -217,8 +217,9 @@ int main(int argc, char* argv[]) {
     iEvent2Print++;
 
     bool Jpsi_first = true;
-    int chi_c_num = 5;
+    int chi_c_num = -1;
     double event_weight = 1.;
+    int charm_number = 0;
 
     // Loop over all particles in the generated event    
     for (int i = 0; i < pythia.event.size(); ++i) {
@@ -232,6 +233,8 @@ int main(int argc, char* argv[]) {
 	   (pythia.event[i].status() == -62))        ||
 	  ((pythia.event[i].id() == idJpsi)  && 
 	   (pythia.event[i].status() == -91))){
+	charm_number++;
+	bool count_ev = true;
 	
 	if ((pythia.event[i].id() == idChic0) ||
 	    (pythia.event[i].id() == idChic1) ||
@@ -255,7 +258,13 @@ int main(int argc, char* argv[]) {
 	if ((pythia.event[i].id() == idJpsi) && 
 	    (Jpsi_first == true)){
 	  chi_c_num = 3;
-	}
+	} 
+	if ((pythia.event[i].id() == idJpsi) && 
+	    (Jpsi_first == false)){
+	  count_ev = false;
+	} 
+
+	
 	
 	/*Evaluate event_weight -- weight, which are going from 
 	  charmonium decays branching
@@ -263,38 +272,40 @@ int main(int argc, char* argv[]) {
 	  
 	  Attention! Array chic_final_br use only for charmonium generator
 	  configuration! For other configuration use all_final_br*/
-	
+
 	event_weight = chic_final_br[chi_c_num];
-     	Signal_event_handler(&(pythia), chi_c_num, i,
-			     &(hChi_c_pt_y[0]),
-			     &(hChi_c_electron_pt_y[0]),
-			     &(hChi_c_positron_pt_y[0]),
-			     &(hChi_c_gamma_pt_y[0]),
-			     &(hChi_c_pt_y_cndtn_1[0]),
-			     &(hChi_c_electron_pt_y_cndtn_1[0]),
-			     &(hChi_c_positron_pt_y_cndtn_1[0]),
-			     &(hChi_c_gamma_pt_y_cndtn_1[0]),
-			     &(hChi_c_pt_y_cndtn_2[0]),
-			     &(hChi_c_electron_pt_y_cndtn_2[0]),
-			     &(hChi_c_positron_pt_y_cndtn_2[0]),
-			     &(hChi_c_gamma_pt_y_cndtn_2[0]),
-			     &(hChi_c_pt_y_cndtn_3[0]),
-			     &(hChi_c_electron_pt_y_cndtn_3[0]),
-			     &(hChi_c_positron_pt_y_cndtn_3[0]),
-			     &(hChi_c_gamma_pt_y_cndtn_3[0]),
-			     &(hChi_c_pt_y_cndtn_4[0]),
-			     &(hChi_c_electron_pt_y_cndtn_4[0]),
-			     &(hChi_c_positron_pt_y_cndtn_4[0]),
-			     &(hChi_c_gamma_pt_y_cndtn_4[0]),
-			     &(hMassElecPosiGam_diff_ElecPosi_from_chi_c[0]),
-			     &(hMassElecPosi_from_Jpsi[0]),
-			     &(hJpsi_from_chic[0]),
-			     &(chic_final_br[0]));/*ATTENTION: array 
+     	if (count_ev && charm_number == 1){
+	  Signal_event_handler(&(pythia), chi_c_num, i,
+			       &(hChi_c_pt_y[0]),
+			       &(hChi_c_electron_pt_y[0]),
+			       &(hChi_c_positron_pt_y[0]),
+			       &(hChi_c_gamma_pt_y[0]),
+			       &(hChi_c_pt_y_cndtn_1[0]),
+			       &(hChi_c_electron_pt_y_cndtn_1[0]),
+			       &(hChi_c_positron_pt_y_cndtn_1[0]),
+			       &(hChi_c_gamma_pt_y_cndtn_1[0]),
+			       &(hChi_c_pt_y_cndtn_2[0]),
+			       &(hChi_c_electron_pt_y_cndtn_2[0]),
+			       &(hChi_c_positron_pt_y_cndtn_2[0]),
+			       &(hChi_c_gamma_pt_y_cndtn_2[0]),
+			       &(hChi_c_pt_y_cndtn_3[0]),
+			       &(hChi_c_electron_pt_y_cndtn_3[0]),
+			       &(hChi_c_positron_pt_y_cndtn_3[0]),
+			       &(hChi_c_gamma_pt_y_cndtn_3[0]),
+			       &(hChi_c_pt_y_cndtn_4[0]),
+			       &(hChi_c_electron_pt_y_cndtn_4[0]),
+			       &(hChi_c_positron_pt_y_cndtn_4[0]),
+			       &(hChi_c_gamma_pt_y_cndtn_4[0]),
+			       &(hMassElecPosiGam_diff_ElecPosi_from_chi_c[0]),
+			       &(hMassElecPosi_from_Jpsi[0]),
+			       &(hJpsi_from_chic[0]),
+			       &(chic_final_br[0]));/*ATTENTION: array 
 						    chic_final_br use only 
 						    for charmonium generator 
 						    configuration! For other 
 						    configuration use 
-						    all_final_br*/ 
+						    all_final_br*/
+	}
 	
 	
       }
@@ -324,6 +335,8 @@ int main(int argc, char* argv[]) {
     } // End of particle loop
 
     //in that place we should call Background handler
+
+    //Print event_weight
     Background_handler(&(pythia), elec, posi, gamm, 
 		       elec_num, posi_num, gamm_num, 
 		       &(elec_data[0][0]), 
@@ -338,6 +351,7 @@ int main(int argc, char* argv[]) {
 		       &(hMassElecPosi_from_cand[0]),
 		       &(hJpsi_from_cand[0]),
 		       event_weight);
+    
     elec_num = 0;
     posi_num = 0;
     gamm_num = 0;

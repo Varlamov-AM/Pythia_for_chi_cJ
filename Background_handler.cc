@@ -32,6 +32,7 @@ void Background_handler(Pythia* pythia,
 			TH2F** hJpsi_from_cand,
 			double br){
 
+
   /* This method is designed to handle background events. As variables, 
      the method receives a pointer to the pythia generator, pointers to 
      arrays of electrons, positrons and photons from the event.
