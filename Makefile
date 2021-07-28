@@ -15,7 +15,7 @@ STATICLIB    := $(PYTHIA8)/lib/archive/libpythia8.a
 SHAREDLIB    := $(PYTHIA8)/lib/libpythia8210.$(SHAREDSUFFIX)
 DICTCXXFLAGS := -I$(HOME)/chi_c2/PYTHIA8/pythia8210/include
 ROOTCXXFLAGS := $(DICTCXXFLAGS) $(shell root-config --cflags)
-CXXFLAGS     := -Wall
+CXXFLAGS     := -Wall -g
 
 # Libraries to include if GZIP support is enabled
 ifeq (x$(ENABLEGZIP),xyes)

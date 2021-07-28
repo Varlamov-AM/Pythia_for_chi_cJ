@@ -41,7 +41,8 @@ void ROOT_file_creator(TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 void Background_handler (Pythia*, int *, int*, int*, int, int, int, 
 			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
 			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
-			 TLorentzVector*, TLorentzVector*, TLorentzVector*,
+			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
+			 TLorentzVector*,
 			 TH2F**, TH2F**, TH2F**, double);
 void Signal_event_handler(Pythia*, int, int,
 			  TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
@@ -155,8 +156,8 @@ int main(int argc, char* argv[]) {
   //Histogram for Jpsi and Jpsi candidates
 
 
-  TH2F* hJpsi_from_chic[4];
-  TH2F* hJpsi_from_cand[4];
+  TH2F* hJpsi_from_chic[6];
+  TH2F* hJpsi_from_cand[6];
 
   Histogram_creator(&(hChi_c_pt_y[0]),
 		    &(hChi_c_electron_pt_y[0]),
@@ -201,7 +202,8 @@ int main(int argc, char* argv[]) {
   TLorentzVector gamma_data[1000][2];
   TLorentzVector elec_true_data[1000];
   TLorentzVector posi_true_data[1000];
-  TLorentzVector Jpsi_data_ALICE0[500];
+  TLorentzVector Jpsi_data_ALICE0_1[500];
+  TLorentzVector Jpsi_data_ALICE0_2[500];
   TLorentzVector Jpsi_data_ALICE3_1[500];
   TLorentzVector Jpsi_data_ALICE3_2[500];
   TLorentzVector Jpsi_data_ALICE3_3[500];
@@ -343,7 +345,8 @@ int main(int argc, char* argv[]) {
 		       &(posi_data[0][0]), 
 		       &(gamma_data[0][0]), 
 		       elec_true_data, posi_true_data, 
-		       Jpsi_data_ALICE0,
+		       Jpsi_data_ALICE0_1,
+		       Jpsi_data_ALICE0_2,
 		       Jpsi_data_ALICE3_1,
 		       Jpsi_data_ALICE3_2,
 		       Jpsi_data_ALICE3_3,

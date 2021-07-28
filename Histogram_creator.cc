@@ -354,12 +354,19 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
   TString title_hJpsi_from_cand[6];
 
 
-  for (int i = 0; i < 4; i++){
-
-    name_hJpsi_from_chic[i] =
-      Form("hJpsi_from_chic_cndtn%d", i + 1);
-    name_hJpsi_from_cand[i] =
-      Form("hJpsi_from_cand_cndtn%d", i + 1);
+  for (int i = 0; i < 6; i++){
+    if (i < 3){
+      name_hJpsi_from_chic[i] =
+	Form("hJpsi_from_chic_ALICE%d_c%d", 0, i);
+      name_hJpsi_from_cand[i] =
+	Form("hJpsi_from_cand_ALICE%d_c%d", 0, i);
+    }
+    if (i >= 3){
+      name_hJpsi_from_chic[i] =
+	Form("hJpsi_from_chic_ALICE%d_p%d", 3, i-2);
+      name_hJpsi_from_cand[i] =
+	Form("hJpsi_from_cand_ALICE%d_p%d", 3, i-2);
+    }
 
     title_hJpsi_from_chic[i] = Form("d^{2}N_{J/#psi}/dp_{T}dy");
     title_hJpsi_from_cand[i] = Form("d^{2}N_{J/#psi}/dp_{T}dy");
@@ -375,10 +382,10 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
   }
 
 
-  TString name_hMassElecPosi_from_Jpsi[6];
-  TString title_hMassElecPosi_from_Jpsi[6];
-  TString name_hMassElecPosi_from_cand[6];
-  TString title_hMassElecPosi_from_cand[6];
+  TString name_hMassElecPosi_from_Jpsi[4];
+  TString title_hMassElecPosi_from_Jpsi[4];
+  TString name_hMassElecPosi_from_cand[4];
+  TString title_hMassElecPosi_from_cand[4];
 
 
   for (int i = 0; i < 6; i++){

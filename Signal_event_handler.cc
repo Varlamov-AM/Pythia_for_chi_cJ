@@ -305,7 +305,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[0]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 	
 	  hMassElecPosi_from_Jpsi[1]->Fill(
@@ -315,7 +315,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[1]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 	}
 
@@ -328,7 +328,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[2]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 	}
 
@@ -341,7 +341,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[3]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 
 	  hMassElecPosi_from_Jpsi[4]->Fill(
@@ -351,7 +351,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[4]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 
 	  hMassElecPosi_from_Jpsi[5]->Fill(
@@ -361,7 +361,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	  hJpsi_from_chic[5]->Fill(
           ((pElec + pPosi).Pt()),
-	  ((pElec + pPosi).Eta()),
+	  ((pElec + pPosi).Rapidity()),
 	  branching[chi_c_name]);
 	}
       }
@@ -412,7 +412,7 @@ void Signal_event_handler(Pythia* pythia,
 	
 	hJpsi_from_chic[0]->Fill(
         ((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
+	((pElec + pPosi).Rapidity()),
 	branching[chi_c_name]);
 	
 	hMassElecPosi_from_Jpsi[1]->Fill(
@@ -422,7 +422,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	hJpsi_from_chic[1]->Fill(
 	((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
+	((pElec + pPosi).Rapidity()),
 	branching[chi_c_name]);
       }
 
@@ -435,7 +435,7 @@ void Signal_event_handler(Pythia* pythia,
 
 	hJpsi_from_chic[2]->Fill(
         ((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
+	((pElec + pPosi).Rapidity()),
 	branching[chi_c_name]);
       }
 
@@ -446,19 +446,9 @@ void Signal_event_handler(Pythia* pythia,
 	((pElec_sm_1 + pPosi_sm_1).Pt()),
 	branching[chi_c_name]);
 
-	hJpsi_from_chic[3]->Fill(
-	((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
-	branching[chi_c_name]);
-
 	hMassElecPosi_from_Jpsi[4]->Fill(
 	((pElec_sm_2 + pPosi_sm_2).M()),
 	((pElec_sm_2 + pPosi_sm_2).Pt()),
-	branching[chi_c_name]);
-
-	hJpsi_from_chic[4]->Fill(
-	((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
 	branching[chi_c_name]);
 
 	hMassElecPosi_from_Jpsi[5]->Fill(
@@ -466,9 +456,19 @@ void Signal_event_handler(Pythia* pythia,
 	((pElec_sm_3 + pPosi_sm_3).Pt()),
 	branching[chi_c_name]);
 
+	hJpsi_from_chic[3]->Fill(
+	((pElec + pPosi).Pt()),
+	((pElec + pPosi).Rapidity()),
+	branching[chi_c_name]);
+
+	hJpsi_from_chic[4]->Fill(
+	((pElec + pPosi).Pt()),
+	((pElec + pPosi).Rapidity()),
+	branching[chi_c_name]);
+
 	hJpsi_from_chic[5]->Fill(
 	((pElec + pPosi).Pt()),
-	((pElec + pPosi).Eta()),
+	((pElec + pPosi).Rapidity()),
 	branching[chi_c_name]);
       }
     }

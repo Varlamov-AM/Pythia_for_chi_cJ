@@ -85,11 +85,11 @@ void ROOT_file_creator(TH2F** hChi_c_pt_y,
     hMassElecPosi_from_cand[i]                                        ->Write();
   }
 
-  for (int i = 0; i < 4; i++){
+  for (int i = 0; i < 6; i++){
     hJpsi_from_chic[i]                                                ->Write();
   }
   
-  for (int i = 0; i < 4; i++){
+  for (int i = 0; i < 6; i++){
     hJpsi_from_cand[i]                                                ->Write();
   }
   
