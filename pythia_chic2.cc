@@ -31,19 +31,21 @@ void Histogram_creator(TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**, 
-		       TH2F**);
+		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**);
 void ROOT_file_creator(TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
-		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**, 
-		       TH2F**, TH1F*);
+		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
+		       TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,  
+		       TH1F*);
 void Background_handler (Pythia*, int *, int*, int*, int, int, int, 
 			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
 			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
 			 TLorentzVector*, TLorentzVector*, TLorentzVector*, 
 			 TLorentzVector*,
-			 TH2F**, TH2F**, TH2F**, double);
+			 TH2F**, TH2F**, TH2F**, TH2F**, TH2F**, TH2F**, TH2F**, 
+			 double);
 void Signal_event_handler(Pythia*, int, int,
 			  TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 			  TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
@@ -51,14 +53,6 @@ void Signal_event_handler(Pythia*, int, int,
 			  TH2F**, TH2F**, TH2F**, TH2F**, TH2F**,
 			  TH2F**, TH2F**, TH2F**,
 			  double*);
-/*void Invariant_mass_spectr_creator(TLorentzVector, TLorentzVector, 
-				   TLorentzVector, TLorentzVector, 
-				   TLorentzVector, TLorentzVector,
-				   TLorentzVector, TLorentzVector, 
-				   TLorentzVector, TLorentzVector,
-				   TH2F*, TH2F*, TH2F*, TH2F*, TH2F*, TH2F*,
-				   TH2F*, TH2F*, TH2F*, TH2F*, TH2F*, TH2F*, 
-				   TH2F*, double);*/
 
 
 
@@ -95,8 +89,8 @@ int main(int argc, char* argv[]) {
     charmonium decays*/
 
 
-  double chic_final_br[4] = {7.5819e-04, 202.383e-04, 114.624e-04, 5.971e-2};
-  //double all_final_br[4] = {1., 1., 1., 1.};
+  //double chic_final_br[4] = {7.5819e-04, 202.383e-04, 114.624e-04, 5.971e-2};
+  double all_final_br[4] = {1., 1., 1., 1.};
 
   //define particles id from Pythia8 
 
@@ -142,7 +136,11 @@ int main(int argc, char* argv[]) {
   TH2F* hChi_c_electron_pt_y_cndtn_4[4];
   TH2F* hChi_c_positron_pt_y_cndtn_4[4];
   TH2F* hChi_c_gamma_pt_y_cndtn_4[4];
-  
+
+  //e+e-gamma from event in aceptance
+  TH2F* hElectron_pt_y_event[6];
+  TH2F* hPositron_pt_y_event[6];
+  TH2F* hGamma_pt_y_event[6];
 
   //Histograms for invariant mass spectrum
 
@@ -151,6 +149,7 @@ int main(int argc, char* argv[]) {
   TH2F* hMassElecPosiGam_diff_ElecPosi_from_backg[6];
   TH2F* hMassElecPosi_from_Jpsi[6];
   TH2F* hMassElecPosi_from_cand[6];
+  TH2F* hMassElecPosi_from_even[6];
   
   
   //Histogram for Jpsi and Jpsi candidates
@@ -179,10 +178,14 @@ int main(int argc, char* argv[]) {
 		    &(hChi_c_electron_pt_y_cndtn_4[0]),
 		    &(hChi_c_positron_pt_y_cndtn_4[0]),
 		    &(hChi_c_gamma_pt_y_cndtn_4[0]), 
+		    &(hElectron_pt_y_event[0]), 
+		    &(hPositron_pt_y_event[0]), 
+		    &(hGamma_pt_y_event[0]),
 		    &(hMassElecPosiGam_diff_ElecPosi_from_chi_c[0]),
 		    &(hMassElecPosiGam_diff_ElecPosi_from_backg[0]),
 		    &(hMassElecPosi_from_Jpsi[0]),
 		    &(hMassElecPosi_from_cand[0]),
+		    &(hMassElecPosi_from_even[0]),
 		    &(hJpsi_from_chic[0]), 
 		    &(hJpsi_from_cand[0]));
 
@@ -275,7 +278,7 @@ int main(int argc, char* argv[]) {
 	  Attention! Array chic_final_br use only for charmonium generator
 	  configuration! For other configuration use all_final_br*/
 
-	event_weight = chic_final_br[chi_c_num];
+	event_weight = all_final_br[chi_c_num];
      	if (count_ev && charm_number == 1){
 	  Signal_event_handler(&(pythia), chi_c_num, i,
 			       &(hChi_c_pt_y[0]),
@@ -301,7 +304,7 @@ int main(int argc, char* argv[]) {
 			       &(hMassElecPosiGam_diff_ElecPosi_from_chi_c[0]),
 			       &(hMassElecPosi_from_Jpsi[0]),
 			       &(hJpsi_from_chic[0]),
-			       &(chic_final_br[0]));/*ATTENTION: array 
+			       &(all_final_br[0]));/*ATTENTION: array 
 						    chic_final_br use only 
 						    for charmonium generator 
 						    configuration! For other 
@@ -352,7 +355,11 @@ int main(int argc, char* argv[]) {
 		       Jpsi_data_ALICE3_3,
 		       &(hMassElecPosiGam_diff_ElecPosi_from_backg[0]),
 		       &(hMassElecPosi_from_cand[0]),
+		       &(hMassElecPosi_from_even[0]),
 		       &(hJpsi_from_cand[0]),
+		       &(hElectron_pt_y_event[0]),
+		       &(hPositron_pt_y_event[0]),
+		       &(hGamma_pt_y_event[0]),
 		       event_weight);
     
     elec_num = 0;
@@ -395,10 +402,14 @@ int main(int argc, char* argv[]) {
 		    &(hChi_c_electron_pt_y_cndtn_4[0]),
 		    &(hChi_c_positron_pt_y_cndtn_4[0]),
 		    &(hChi_c_gamma_pt_y_cndtn_4[0]), 
+		    &(hElectron_pt_y_event[0]), 
+		    &(hPositron_pt_y_event[0]), 
+		    &(hGamma_pt_y_event[0]),
 		    &(hMassElecPosiGam_diff_ElecPosi_from_chi_c[0]),
 		    &(hMassElecPosiGam_diff_ElecPosi_from_backg[0]),
 		    &(hMassElecPosi_from_Jpsi[0]),
 		    &(hMassElecPosi_from_cand[0]),
+		    &(hMassElecPosi_from_even[0]),
 		    &(hJpsi_from_chic[0]), 
 		    &(hJpsi_from_cand[0]),
 		    hCross_section_hist);

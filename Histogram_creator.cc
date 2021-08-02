@@ -22,10 +22,14 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
 		       TH2F** hChi_c_electron_pt_y_cndtn_4,
 		       TH2F** hChi_c_positron_pt_y_cndtn_4,
 		       TH2F** hChi_c_gamma_pt_y_cndtn_4,
+		       TH2F** hElectron_pt_y_event,
+		       TH2F** hPositron_pt_y_event,
+		       TH2F** hGamma_pt_y_event,
 		       TH2F** hMassElecPosiGam_diff_ElecPosi_from_chi_c,
 		       TH2F** hMassElecPosiGam_diff_ElecPosi_from_backg,
 		       TH2F** hMassElecPosi_from_Jpsi,
 		       TH2F** hMassElecPosi_from_cand,
+		       TH2F** hMassElecPosi_from_even,
 		       TH2F** hJpsi_from_chic,
 		       TH2F** hJpsi_from_cand){
 
@@ -309,6 +313,53 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
     hChi_c_gamma_pt_y_cndtn_4[j]->Sumw2();
   }
 
+  TString name_hElectron_pt_y_event[6];
+  TString title_hElectron_pt_y_event[6];
+  TString name_hPositron_pt_y_event[6];
+  TString title_hPositron_pt_y_event[6];
+  TString name_hGamma_pt_y_event[6];
+  TString title_hGamma_pt_y_event[6];
+
+
+  for (int k = 0; k < 6; k++){
+    if (k < 3){
+      name_hElectron_pt_y_event[k] =
+	Form("hElectron_pt_y_event_ALICE%d_c%d_from_event", 0, k + 1);
+      name_hPositron_pt_y_event[k] =
+	Form("hPositron_pt_y_event_ALICE%d_c%d_from_event", 0, k + 1);
+      name_hGamma_pt_y_event[k] =
+	Form("hGamma_pt_y_event_ALICE%d_c%d_from_event", 0, k + 1);
+    }
+    if (k >= 3){
+      name_hElectron_pt_y_event[k] =
+	Form("hElectron_pt_y_event_ALICE%d_p%d_from_event", 3, k - 2);
+      name_hPositron_pt_y_event[k] =
+	Form("hPositron_pt_y_event_ALICE%d_p%d_from_event", 3, k - 2);
+      name_hGamma_pt_y_event[k] =
+	Form("hGamma_pt_y_event_ALICE%d_p%d_from_event", 3, k - 2);
+    }
+
+    title_hElectron_pt_y_event[k] = Form("N_{e^{-}}");
+    title_hPositron_pt_y_event[k] = Form("N_{e^{+}}");
+    title_hGamma_pt_y_event[k]    = Form("N_{#gamma}");
+
+
+    hElectron_pt_y_event[k] =
+      new TH2F(name_hElectron_pt_y_event[k],
+	       title_hElectron_pt_y_event[k],
+	       nPtBins, 0., 50., nyBins, -2., 2.);
+    hPositron_pt_y_event[k] =
+      new TH2F(name_hPositron_pt_y_event[k],
+	       title_hPositron_pt_y_event[k],
+	       nPtBins, 0., 50., nyBins, -2., 2.);
+    hGamma_pt_y_event[k] =
+      new TH2F(name_hGamma_pt_y_event[k],
+	       title_hGamma_pt_y_event[k],
+	       nPtBins, 0., 50., nyBins, -2., 2.);
+    
+  }
+
+  
   TString name_hMassElecPosiGam_diff_ElecPosi_from_chi_c[6];
   TString title_hMassElecPosiGam_diff_ElecPosi_from_chi_c[6];
   TString name_hMassElecPosiGam_diff_ElecPosi_from_backg[6];
@@ -382,10 +433,12 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
   }
 
 
-  TString name_hMassElecPosi_from_Jpsi[4];
-  TString title_hMassElecPosi_from_Jpsi[4];
-  TString name_hMassElecPosi_from_cand[4];
-  TString title_hMassElecPosi_from_cand[4];
+  TString name_hMassElecPosi_from_Jpsi[6];
+  TString title_hMassElecPosi_from_Jpsi[6];
+  TString name_hMassElecPosi_from_cand[6];
+  TString title_hMassElecPosi_from_cand[6];
+  TString name_hMassElecPosi_from_even[6];
+  TString title_hMassElecPosi_from_even[6];
 
 
   for (int i = 0; i < 6; i++){
@@ -394,15 +447,20 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
 	Form("hMassElecPosi_from_Jpsi_ALICE%d_c%d_from_chic", 0, i);
       name_hMassElecPosi_from_cand[i] =
 	Form("hMassElecPosi_from_cand_ALICE%d_c%d_from_cand", 0, i);
+      name_hMassElecPosi_from_even[i] =
+	Form("hMassElecPosi_from_even_ALICE%d_c%d_from_even", 0, i);
     }
     if (i >= 3){
       name_hMassElecPosi_from_Jpsi[i] =
 	Form("hMassElecPosi_from_Jpsi_ALICE%d_p%d_from_chic", 3, i-2);
       name_hMassElecPosi_from_cand[i] =
 	Form("hMassElecPosi_from_cand_ALICE%d_p%d_from_cand", 3, i-2);
+      name_hMassElecPosi_from_even[i] =
+	Form("hMassElecPosi_from_even_ALICE%d_p%d_from_even", 3, i-2);
     }
     title_hMassElecPosi_from_Jpsi[i] = Form("d^{2}N/dMdp_{T}");
     title_hMassElecPosi_from_cand[i] = Form("d^{2}N/dMdp_{T}");
+    title_hMassElecPosi_from_even[i] = Form("d^{2}N/dMdp_{T}");
     hMassElecPosi_from_Jpsi[i] =
       new TH2F (name_hMassElecPosi_from_Jpsi[i],
 		title_hMassElecPosi_from_Jpsi[i],
@@ -413,6 +471,11 @@ void Histogram_creator(TH2F** hChi_c_pt_y,
 		title_hMassElecPosi_from_cand[i],
 		nMBins, 2.1, 4.1, nPtBins_inv_m, 0., 50.);
     hMassElecPosi_from_cand[i]->Sumw2();
+    hMassElecPosi_from_even[i] =
+      new TH2F (name_hMassElecPosi_from_even[i],
+		title_hMassElecPosi_from_even[i],
+		400, 0., 4., nPtBins_inv_m, 0., 50.);
+    hMassElecPosi_from_even[i]->Sumw2();
   }
 
 

@@ -23,10 +23,14 @@ void ROOT_file_creator(TH2F** hChi_c_pt_y,
 		       TH2F** hChi_c_electron_pt_y_cndtn_4, 
 		       TH2F** hChi_c_positron_pt_y_cndtn_4, 
 		       TH2F** hChi_c_gamma_pt_y_cndtn_4,
+		       TH2F** hElectron_pt_y_event,
+		       TH2F** hPositron_pt_y_event,
+		       TH2F** hGamma_pt_y_event,
 		       TH2F** hMassElecPosiGam_diff_ElecPosi_from_chi_c,
 		       TH2F** hMassElecPosiGam_diff_ElecPosi_from_backg,
 		       TH2F** hMassElecPosi_from_Jpsi,
 		       TH2F** hMassElecPosi_from_cand,
+		       TH2F** hMassElecPosi_from_even,
 		       TH2F** hJpsi_from_chic,
 		       TH2F** hJpsi_from_cand,
 		       TH1F* hCross_section_hist){
@@ -71,6 +75,12 @@ void ROOT_file_creator(TH2F** hChi_c_pt_y,
     hChi_c_positron_pt_y_cndtn_4[i]                                   ->Write();
     hChi_c_gamma_pt_y_cndtn_4[i]                                      ->Write();
   }
+
+  for (int i = 0; i < 6; i++){
+    hElectron_pt_y_event[i]                                           ->Write();
+    hPositron_pt_y_event[i]                                           ->Write();
+    hGamma_pt_y_event[i]                                              ->Write();
+  }
   
   for (int i = 0; i < 6; i++){
     hMassElecPosiGam_diff_ElecPosi_from_chi_c[i]                      ->Write();
@@ -83,6 +93,10 @@ void ROOT_file_creator(TH2F** hChi_c_pt_y,
   
   for (int i = 0; i < 6; i++){
     hMassElecPosi_from_cand[i]                                        ->Write();
+  }
+  
+  for (int i = 0; i < 6; i++){
+    hMassElecPosi_from_even[i]                                        ->Write();
   }
 
   for (int i = 0; i < 6; i++){

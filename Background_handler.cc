@@ -31,7 +31,11 @@ void Background_handler(Pythia* pythia,
 			TLorentzVector* Jpsi_data_ALICE3_3,
 			TH2F** hMassElecPosiGam_diff_ElecPosi_from_backg,
 			TH2F** hMassElecPosi_from_cand,
+			TH2F** hMassElecPosi_from_even,
 			TH2F** hJpsi_from_cand,
+       			TH2F** hElectron_pt_y_event,
+			TH2F** hPositron_pt_y_event,
+			TH2F** hGamma_pt_y_event,
 			double br){
 
 
@@ -156,8 +160,43 @@ void Background_handler(Pythia* pythia,
 	    br);
 	  }
 	    
-	    Jpsi_num_ALICE0_1++;
+	  Jpsi_num_ALICE0_1++;
+
+	  hMassElecPosi_from_even[0]->Fill(
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).M()),
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).Pt()),
+	  br);
+	    
+	  hMassElecPosi_from_even[1]->Fill(
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).M()),
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).Pt()),
+	  br);
+	  
+	  hElectron_pt_y_event[0]->Fill(
+	  ((*(elec_data + 4 * i + 0)).Pt()),
+	  ((*(elec_data + 4 * i + 0)).Rapidity()),
+	  br);
+	  
+	  hPositron_pt_y_event[0]->Fill(
+	  ((*(posi_data + 4 * i + 0)).Pt()),
+	  ((*(posi_data + 4 * i + 0)).Rapidity()),
+	  br);
+	  
+	  hElectron_pt_y_event[1]->Fill(
+	  ((*(elec_data + 4 * i + 0)).Pt()),
+	  ((*(elec_data + 4 * i + 0)).Rapidity()),
+	  br);
+	  
+	  hPositron_pt_y_event[1]->Fill(
+	  ((*(posi_data + 4 * i + 0)).Pt()),
+	  ((*(posi_data + 4 * i + 0)).Rapidity()),
+	  br);
 	}
+
 	if (IsPhotonDetectedInEMCAL(elec_true_data[i]) &&
 	    IsPhotonDetectedInEMCAL(posi_true_data[j])){
 	  if (fabs((*(elec_data + 4 * i + 0) + 
@@ -177,7 +216,25 @@ void Background_handler(Pythia* pythia,
 	    br);
 	  }
 	    
-	    Jpsi_num_ALICE0_2++;
+	  Jpsi_num_ALICE0_2++;
+
+	  hMassElecPosi_from_even[2]->Fill(
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).M()),
+	  ((*(elec_data + 4 * i + 0) + 
+	    *(posi_data + 4 * j + 0)).Pt()),
+	  br);
+
+	  hElectron_pt_y_event[2]->Fill(
+	  ((*(elec_data + 4 * i + 0)).Pt()),
+	  ((*(elec_data + 4 * i + 0)).Rapidity()),
+	  br);
+
+	  hPositron_pt_y_event[2]->Fill(
+	  ((*(posi_data + 4 * i + 0)).Pt()),
+	  ((*(posi_data + 4 * i + 0)).Rapidity()),
+	  br);
+	    
 	}
 	if (IsElectronDetectedInALICE3(elec_true_data[i], 2) &&
 	    IsElectronDetectedInALICE3(posi_true_data[j], 2)){
@@ -199,6 +256,24 @@ void Background_handler(Pythia* pythia,
 	    
 	    Jpsi_num_ALICE3_1++;
 	  }
+
+	  hMassElecPosi_from_even[3]->Fill(
+	  ((*(elec_data + 4 * i + 1) + 
+	    *(posi_data + 4 * j + 1)).M()),
+	  ((*(elec_data + 4 * i + 1) + 
+	    *(posi_data + 4 * j + 1)).Pt()),
+	  br);
+
+	  hElectron_pt_y_event[3]->Fill(
+	  ((*(elec_data + 4 * i + 1)).Pt()),
+	  ((*(elec_data + 4 * i + 1)).Rapidity()),
+	  br);
+
+	  hPositron_pt_y_event[3]->Fill(
+	  ((*(posi_data + 4 * i + 1)).Pt()),
+	  ((*(posi_data + 4 * i + 1)).Rapidity()),
+	  br);
+
 	}
 	if (IsElectronDetectedInALICE3(elec_true_data[i], 2) &&
 	    IsElectronDetectedInALICE3(posi_true_data[j], 2)){
@@ -220,6 +295,24 @@ void Background_handler(Pythia* pythia,
 	    
 	    Jpsi_num_ALICE3_2++;
 	   }
+
+	  hMassElecPosi_from_even[4]->Fill(
+	  ((*(elec_data + 4 * i + 2) + 
+	    *(posi_data + 4 * j + 2)).M()),
+	  ((*(elec_data + 4 * i + 2) + 
+	    *(posi_data + 4 * j + 2)).Pt()),
+	  br);
+
+	  hElectron_pt_y_event[4]->Fill(
+	  ((*(elec_data + 4 * i + 2)).Pt()),
+	  ((*(elec_data + 4 * i + 2)).Rapidity()),
+	  br);
+
+	  hPositron_pt_y_event[4]->Fill(
+	  ((*(posi_data + 4 * i + 2)).Pt()),
+	  ((*(posi_data + 4 * i + 2)).Rapidity()),
+	  br);
+
 	}
 	if (IsElectronDetectedInALICE3(elec_true_data[i], 2) &&
 	    IsElectronDetectedInALICE3(posi_true_data[j], 2)){
@@ -241,11 +334,75 @@ void Background_handler(Pythia* pythia,
 	    
 	    Jpsi_num_ALICE3_3++;
 	  }
+
+	  hMassElecPosi_from_even[5]->Fill(
+	  ((*(elec_data + 4 * i + 3) + 
+	    *(posi_data + 4 * j + 3)).M()),
+	  ((*(elec_data + 4 * i + 3) + 
+	    *(posi_data + 4 * j + 3)).Pt()),
+	  br);
+
+	  hElectron_pt_y_event[5]->Fill(
+	  ((*(elec_data + 4 * i + 3)).Pt()),
+	  ((*(elec_data + 4 * i + 3)).Rapidity()),
+	  br);
+
+	  hPositron_pt_y_event[5]->Fill(
+	  ((*(posi_data + 4 * i + 3)).Pt()),
+	  ((*(posi_data + 4 * i + 3)).Rapidity()),
+	  br);
+	  
 	}
       }
     }
   }
-  
+
+
+  if (gam_num != 0){
+   
+    for (int i = 0; i < gam_num; i++){
+
+      if (IsPhotonDetectedInPHOS(*(gamma_data + 2 * i))){
+	hGamma_pt_y_event[0]->Fill(
+	((*(gamma_data + 2 * i)).Pt()),
+	((*(gamma_data + 2 * i)).Rapidity()),
+	br);
+	
+	hGamma_pt_y_event[2]->Fill(
+	((*(gamma_data + 2 * i)).Pt()),
+	((*(gamma_data + 2 * i)).Rapidity()),
+	br);
+      };
+      
+      if (IsPhotonDetectedInPHOS(*(gamma_data + 2 * i)) &&
+	  ((*(gamma_data + 2 * i)).Pt() >= 5.)){
+	hGamma_pt_y_event[1]->Fill(
+	((*(gamma_data + 2 * i)).Pt()),
+	((*(gamma_data + 2 * i)).Rapidity()),
+	br);
+      };
+
+      if (IsElectronDetectedInALICE3(*(gamma_data + 2 * i), 1)){
+	hGamma_pt_y_event[3]->Fill(
+	((*(gamma_data + 2 * i)).Pt()),
+	((*(gamma_data + 2 * i)).Rapidity()),
+	br);
+	
+	hGamma_pt_y_event[4]->Fill(
+	((*(gamma_data + 2 * i)).Pt()),
+	((*(gamma_data + 2 * i)).Rapidity()),
+	br);
+      }
+
+      if (IsElectronDetectedInALICE3(*(gamma_data + 2 * i + 1), 1)){
+	hGamma_pt_y_event[5]->Fill(
+	((*(gamma_data + 2 * i + 1)).Pt()),
+	((*(gamma_data + 2 * i + 1)).Rapidity()),
+	br);
+      }
+
+    }
+  }
  
   
 
