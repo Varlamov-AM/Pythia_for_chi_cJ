@@ -194,22 +194,24 @@ int main(int argc, char* argv[]) {
 
   // Begin event loop. Generate event
 
+  const int max_num_of_part = 10000;
+
   int elec_num = 0;
   int posi_num = 0;
   int gamm_num = 0;
-  int elec[1000];
-  int posi[1000];
-  int gamm[1000];
-  TLorentzVector elec_data[1000][4];
-  TLorentzVector posi_data[1000][4];
-  TLorentzVector gamma_data[1000][2];
-  TLorentzVector elec_true_data[1000];
-  TLorentzVector posi_true_data[1000];
-  TLorentzVector Jpsi_data_ALICE0_1[500];
-  TLorentzVector Jpsi_data_ALICE0_2[500];
-  TLorentzVector Jpsi_data_ALICE3_1[500];
-  TLorentzVector Jpsi_data_ALICE3_2[500];
-  TLorentzVector Jpsi_data_ALICE3_3[500];
+  int elec[max_num_of_part];
+  int posi[max_num_of_part];
+  int gamm[max_num_of_part];
+  TLorentzVector elec_data[max_num_of_part][4];
+  TLorentzVector posi_data[max_num_of_part][4];
+  TLorentzVector gamma_data[max_num_of_part][2];
+  TLorentzVector elec_true_data[max_num_of_part];
+  TLorentzVector posi_true_data[max_num_of_part];
+  TLorentzVector Jpsi_data_ALICE0_1[max_num_of_part];
+  TLorentzVector Jpsi_data_ALICE0_2[max_num_of_part];
+  TLorentzVector Jpsi_data_ALICE3_1[max_num_of_part];
+  TLorentzVector Jpsi_data_ALICE3_2[max_num_of_part];
+  TLorentzVector Jpsi_data_ALICE3_3[max_num_of_part];
 
   int iEvent2Print = 0;
 
@@ -322,17 +324,20 @@ int main(int argc, char* argv[]) {
 	2) Find all positrons and create arrays of their index.
 	3) Find all photons and create arrays of their index.*/
       
-      if (pythia.event[i].id() == idElectron){
+      if ((pythia.event[i].id() == idElectron)        &&
+	  (elec_num <= max_num_of_part - 2)            ){
 	*(elec + elec_num) = i;
 	elec_num++;
       }
       
-      if (pythia.event[i].id() == -1 * idElectron){	
+      if ((pythia.event[i].id() == -1 * idElectron)   &&
+	  (posi_num <= max_num_of_part - 2)            ){	
 	*(posi + posi_num) = i;
 	posi_num++;
       }
       
-      if (pythia.event[i].id() == idPhoton){	
+      if ((pythia.event[i].id() == idPhoton)          &&
+	  (gamm_num <= max_num_of_part - 2)            ){	
 	*(gamm + gamm_num) = i;
 	gamm_num++;
       }

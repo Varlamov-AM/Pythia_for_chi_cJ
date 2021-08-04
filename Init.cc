@@ -24,8 +24,8 @@ void Init(Pythia* pythia)
   pythia->readString("Beams:eCM = 13000.");
 
   // Switch off all pi0 decays but pi0 -> gamma gamma
-  pythia->readString("111:onMode = on");
-  pythia->readString("111:offIfAny = 11 -11");
+  //pythia->readString("111:onMode = on");
+  //pythia->readString("111:offIfAny = 11 -11");
 
   // Switch off all J/psi decays but J/psi -> e+ e-
   //pythia->readString("443:onMode = off");

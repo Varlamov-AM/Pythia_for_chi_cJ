@@ -158,9 +158,10 @@ void Background_handler(Pythia* pythia,
             (Jpsi_data_ALICE0_1[Jpsi_num_ALICE0_1].Pt()),
 	    (Jpsi_data_ALICE0_1[Jpsi_num_ALICE0_1].Rapidity()),
 	    br);
-	  }
 	    
-	  Jpsi_num_ALICE0_1++;
+	    Jpsi_num_ALICE0_1++;
+
+	  }
 
 	  hMassElecPosi_from_even[0]->Fill(
 	  ((*(elec_data + 4 * i + 0) + 
@@ -214,9 +215,10 @@ void Background_handler(Pythia* pythia,
 	    (Jpsi_data_ALICE0_2[Jpsi_num_ALICE0_2].Pt()),
 	    (Jpsi_data_ALICE0_2[Jpsi_num_ALICE0_2].Rapidity()),
 	    br);
-	  }
 	    
-	  Jpsi_num_ALICE0_2++;
+	    Jpsi_num_ALICE0_2++;
+
+	  }
 
 	  hMassElecPosi_from_even[2]->Fill(
 	  ((*(elec_data + 4 * i + 0) + 
@@ -410,6 +412,32 @@ void Background_handler(Pythia* pythia,
     for (int i = 0; i < Jpsi_num_ALICE0_1; i++){ 
       for (int j = 0; j < gam_num; j++){
 	if(IsPhotonDetectedInPHOS(*(gamma_data + 2*j))){
+	  
+	  //test printing to find program bugs
+	  if((Jpsi_data_ALICE0_1[i] + *(gamma_data + 2*j)).M() - Jpsi_data_ALICE0_1[i].M()){
+	    printf("\nFind candidate to chi_c with mass close to Jpsi\n");
+	    printf("Jpsi candidate and gamma 4-momentum:\n");
+
+	    
+	    double Jpsi_E  = Jpsi_data_ALICE0_1[i].E();
+	    double Jpsi_px = Jpsi_data_ALICE0_1[i].Px();
+	    double Jpsi_py = Jpsi_data_ALICE0_1[i].Py();
+	    double Jpsi_pz = Jpsi_data_ALICE0_1[i].Pz();
+
+
+	    double gamma_E  = (*(gamma_data + 2*j)).E();
+	    double gamma_px = (*(gamma_data + 2*j)).Px();
+	    double gamma_py = (*(gamma_data + 2*j)).Py();
+	    double gamma_pz = (*(gamma_data + 2*j)).Pz();
+
+	    printf("|   %7.3f   |      |   %7.3f   |\n", Jpsi_E, gamma_E);
+	    printf("|   %7.3f   |      |   %7.3f   |\n", Jpsi_px, gamma_px);
+	    printf("|   %7.3f   |      |   %7.3f   |\n", Jpsi_py, gamma_py);
+	    printf("|   %7.3f   |      |   %7.3f   |\n", Jpsi_pz, gamma_pz);
+
+	    
+	  }
+
 	  hMassElecPosiGam_diff_ElecPosi_from_backg[0]->Fill(
 	  ((Jpsi_data_ALICE0_1[i] + *(gamma_data + 2*j)).M() - Jpsi_data_ALICE0_1[i].M()),
 	  ((Jpsi_data_ALICE0_1[i] + *(gamma_data + 2*j)).Pt()),
