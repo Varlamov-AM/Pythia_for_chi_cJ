@@ -16,12 +16,22 @@ void Init(Pythia* pythia)
   pythia->readString(processLine); 
 
   //Set process type and collision energy
-  pythia->readString("SoftQCD:all = on");
+  
+  pythia->readString("WeakSingleBoson:ffbar2gmZ = on");
+  pythia->readString("23:mMin = 2.");
+  pythia->readString("PhaseSpace:mHatMin = 2.");
+  pythia->readString("PhaseSpace:mHatMax = 4.");
+
+  //pythia->readString("SoftQCD:all = on");
   //pythia->readString("Charmonium:all  = on");
   //pythia->readString("Onia:all(3S1)  = on");
   //pythia->readString("Charmonium:states(3S1) = 443");
   //pythia->readString("Onia:all(3PJ) = on");
   pythia->readString("Beams:eCM = 13000.");
+
+  // Switch off all Z decays but Z -> e+e-
+  pythia->readString("23:onMode = off");
+  pythia->readString("23:onIfAny = 11 -11");
 
   // Switch off all pi0 decays but pi0 -> gamma gamma
   //pythia->readString("111:onMode = on");

@@ -91,6 +91,7 @@ int main(int argc, char* argv[]) {
 
   //double chic_final_br[4] = {7.5819e-04, 202.383e-04, 114.624e-04, 5.971e-2};
   double all_final_br[4] = {1., 1., 1., 1.};
+  
 
   //define particles id from Pythia8 
 
@@ -280,7 +281,8 @@ int main(int argc, char* argv[]) {
 	  Attention! Array chic_final_br use only for charmonium generator
 	  configuration! For other configuration use all_final_br*/
 
-	event_weight = all_final_br[chi_c_num];
+	//event_weight = all_final_br[chi_c_num];
+	event_weight = 0.03632;
      	if (count_ev && charm_number == 1){
 	  Signal_event_handler(&(pythia), chi_c_num, i,
 			       &(hChi_c_pt_y[0]),
