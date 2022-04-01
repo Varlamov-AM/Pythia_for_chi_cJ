@@ -27,10 +27,10 @@ endif
 LDFLAGS1 := $(shell root-config --ldflags --glibs) \
   -L$(PYTHIA8)/lib -lpythia8210 -llhapdf $(LIBGZIP)
 LDFLAGS2 := $(shell root-config --ldflags --glibs) \
-  -L$(PYTHIA8)/lib -lpythia8210 -llhapdf $(LIBGZIP)
+  -L$(PYTHIA8)/lib -lpythia8210 -llhapdf $(LIBGZIP) 
 
-FILES_SRC =   pythia_chic2.cc Init.cc AliParticle.cc AliEvent.cc
-FILES_OBJ =  $(FILES_SRC:%.cc=%.o)
+FILES_SRC =   pythia_chic2.cc Init.cc AliEvent.cc AliParticle.cc
+FILES_OBJ =  $(FILES_SRC:%.cc=%.o) 
 ROOT_DICT = pythiaDict.$(SHAREDSUFFIX)
 
 # Default target; make examples (but not shared dictionary)
@@ -41,16 +41,16 @@ $(EX): $(SHAREDLIB) $(FILES_OBJ) $(ROOT_DICT)
 	$(CXX) $(ROOTCXXFLAGS) $(FILES_OBJ) pythiaDict.so -o $@.exe $(LDFLAGS1)
 
 %.o: %.cc
-	$(CXX) -o $@ -c $< $(CXXFLAGS) $(ROOTCXXFLAGS) 
+	$(CXX) -o $@ -c $< $(CXXFLAGS) $(ROOTCXXFLAGS)
 
 # Rule to build full dictionary
 $(ROOT_DICT):
 	rootcint -f pythiaDict.cc -c $(DICTCXXFLAGS) \
 	-DPYTHIA8_COMPLETE_ROOT_DICTIONARY \
-	AliParticle.h AliEvent.h LinkDef.h
+	AliEvent.h AliParticle.h LinkDef.h
 	$(CXX) -shared -fPIC -o $(ROOT_DICT) pythiaDict.cc \
          -DPYTHIA8_COMPLETE_ROOT_DICTIONARY \
-         $(ROOTCXXFLAGS) $(LDFLAGS2)
+         $(ROOTCXXFLAGS) $(LDFLAGS2) pythiaDict.so
 
 
 # Error messages if PYTHIA libraries don't exist
