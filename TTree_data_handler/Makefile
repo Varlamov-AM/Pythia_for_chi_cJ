@@ -29,25 +29,26 @@ LDFLAGS1 := $(shell root-config --ldflags --glibs) \
 LDFLAGS2 := $(shell root-config --ldflags --glibs) \
   -L$(PYTHIA8)/lib -lpythia8210 -llhapdf $(LIBGZIP)
 
-FILES_SRC =   TTree_data_handler.cc IsElectronDetectedInALICE3.cc IsElectronDetectedInCTS.cc IsPhotonDetectedInEMCAL.cc IsPhotonDetectedInPHOS.cc
+FILES_SRC =  TTree_data_handler.cc AliParticle.cc AliEvent.cc
 FILES_OBJ =  $(FILES_SRC:%.cc=%.o)
+ROOT_DICT = pythiaDict.$(SHAREDSUFFIX)
 
 # Default target; make examples (but not shared dictionary)
 all: $(EX)
 
 # Rule to build hist example. Needs static PYTHIA 8 library
-$(EX): $(SHAREDLIB) $(FILES_OBJ)
-	$(CXX) $(ROOTCXXFLAGS) $(FILES_OBJ) -o $@.exe $(LDFLAGS1)
+$(EX): $(SHAREDLIB) $(FILES_OBJ) $(ROOT_DICT)
+	$(CXX) $(ROOTCXXFLAGS) $(FILES_OBJ) pythiaDict.so -o $@.exe $(LDFLAGS1)
 
 %.o: %.cc
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(ROOTCXXFLAGS) 
 
 # Rule to build full dictionary
-dict: $(SHAREDLIB)
+$(ROOT_DICT):
 	rootcint -f pythiaDict.cc -c $(DICTCXXFLAGS) \
-           -DPYTHIA8_COMPLETE_ROOT_DICTIONARY \
-           pythiaROOT.h pythiaLinkdef.h
-	$(CXX) -shared -fPIC -o pythiaDict.$(SHAREDSUFFIX) pythiaDict.cc \
+	-DPYTHIA8_COMPLETE_ROOT_DICTIONARY \
+	AliParticle.h AliEvent.h LinkDef.h
+	$(CXX) -shared -fPIC -o $(ROOT_DICT) pythiaDict.cc \
          -DPYTHIA8_COMPLETE_ROOT_DICTIONARY \
          $(ROOTCXXFLAGS) $(LDFLAGS2)
 
@@ -62,4 +63,4 @@ $(SHAREDLIB):
 
 # Clean up
 clean:
-	rm -f $(EXE) $(FILES_OBJ) pythiaDict.*
+	rm -f $(EXE) $(FILES_OBJ) pythia_chic2.root pythiaDict.*

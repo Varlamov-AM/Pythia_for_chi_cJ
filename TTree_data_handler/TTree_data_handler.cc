@@ -4,15 +4,16 @@
 #include <TH1D.h>
 #include <TH2D.h>
 #include <TLorentzVector.h>
+#include "AliParticle.h"
+#include "AliEvent.h"
+#include <vector>
 
-bool IsElectronDetectedInALICE3(TLorentzVector, int);
-bool IsElectronDetectedInCTS(TLorentzVector);
-bool IsPhotonDetectedInEMCAL(TLorentzVector);
-bool IsPhotonDetectedInPHOS(TLorentzVector);
+class AliEvent;
+class AliParticle;
 
 int main(){
   
-  TFile* input = new TFile("TTree_test.root");
+  TFile* input = new TFile("../TTree_test.root");
   TFile* output = new TFile("output.root", "RECREATE");
   TTree* tree = (TTree*)input->Get("Tree");
   tree->Print();
@@ -20,12 +21,62 @@ int main(){
   int n = tree->GetEntries();
   printf("Number of entries: %10d\n", n);
 
-  int number_electron_in_event;
-  int number_positron_in_event;
-  int number_photon_in_event;
+  AliEvent *General_event = 0;
+  tree->SetBranchAddress("AliEvent", &General_event);
+  TBranch *branch = tree->GetBranch("AliEvent");
+
+  TH2D* mass_chic = new TH2D("mass_chic", "Chi_cJ inv mass spectrum", 100, 3.4, 3.6, 50, 0., 50.);
+  TH2D* mass_Jpsi = new TH2D("mass_Jpsi", "Jpsi inv mass spectrum", 100, 2.8, 3.5, 50, 0., 50.);
+  TH2D* mass_elecposi = new TH2D("mass_elecposi", "e^{+}e^{-} inv mass spectrum", 200, 0., 4., 50, 0., 50.);
+  TH2D* mass_elecposigamma = new TH2D("mass_elecposigamma", "e^{+}e^{-}#gamma inv mass spectrum", 200, 2., 4., 50, 0., 50.);
+  TH2D* mass_diff = new TH2D("mass_diff", "M(e^{+}e^{-}#gamma) - M(e^{+}e^{-})", 200, 0.13, 0.136, 50, 0., 50.);
 
 
-  Double_t electron_px[1000]; 
+  for (int i = 0; i < n; i++){
+    if (i % 1000 == 0){
+      printf("%d\n", i);
+    }
+    branch->GetEntry(i);
+    AliParticle chi_cJ = General_event->chic;
+    AliParticle JPsi   = General_event->Jpsi;
+    std::vector<AliParticle> electron = General_event->electrons;
+    std::vector<AliParticle> positron = General_event->positrons;
+    std::vector<AliParticle> photon   = General_event->photons;
+    mass_chic->Fill((chi_cJ.FMomentum()).M(), (chi_cJ.FMomentum()).Pt());
+    mass_Jpsi->Fill((JPsi.FMomentum()).M(), (JPsi.FMomentum()).Pt());
+
+    if (electron.size() != 0 &&
+	positron.size() != 0){
+      for (uint i = 0; i < electron.size(); i++){
+	for (uint j = 0; j < positron.size(); j++){
+	  mass_elecposi->Fill((electron[i].FMomentum() + positron[j].FMomentum()).M(),
+			      (electron[i].FMomentum() + positron[j].FMomentum()).Pt());
+	  for (uint k = 0; k < photon.size(); k++){
+	    mass_elecposigamma->Fill((electron[i].FMomentum() + positron[j].FMomentum() + photon[j].FMomentum()).M(),
+				     (electron[i].FMomentum() + positron[j].FMomentum() + photon[j].FMomentum()).Pt());
+	    mass_diff->Fill((electron[i].FMomentum() + positron[j].FMomentum() + photon[k].FMomentum()).M() - (electron[i].FMomentum() + positron[j].FMomentum()).M(),
+			    (electron[i].FMomentum() + positron[j].FMomentum() + photon[k].FMomentum()).Pt());
+	  }
+	}
+      }
+    }
+  }
+
+
+
+  output->cd();
+
+  mass_chic->Write();
+  mass_Jpsi->Write(); 
+  mass_elecposi->Write();
+  mass_elecposigamma->Write();
+  mass_diff->Write();
+
+  output->Close();
+  delete output;
+ 
+
+  /*Double_t electron_px[1000]; 
   Double_t electron_py[1000]; 
   Double_t electron_pz[1000]; 
   Double_t electron_p0[1000];
@@ -87,7 +138,7 @@ int main(){
       }
     }
       
-    if(number_electron_in_event != 0){ 
+    if(number_positron_in_event != 0){ 
       for (int l = 0; l < number_electron_in_event; l++){
 	posi_data[l] = TLorentzVector(positron_px[l],
 				      positron_py[l],
@@ -165,7 +216,7 @@ int main(){
       printf("Handled events: %6d\n", i);
     } 
   }
-  
+
   output->cd();
   
   hist_test01->Write();
@@ -180,7 +231,9 @@ int main(){
   hist_test10->Write();
   hist_test11->Write();
   hist_test12->Write();
-  hist_test13->Write();
+  hist_test13->Write();*/
+  
+  printf("Events handle correctly finished!\n");
   
 
   return 0;
