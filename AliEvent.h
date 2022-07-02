@@ -17,7 +17,9 @@ class AliEvent: public TObject{
   std::vector<AliParticle> electrons;
   std::vector<AliParticle> positrons;
   std::vector<AliParticle> photons;
-
+  std::vector<AliParticle> charged;
+  std::vector<AliParticle> neutral;
+  
   AliEvent(){};
   virtual ~AliEvent(){};
 

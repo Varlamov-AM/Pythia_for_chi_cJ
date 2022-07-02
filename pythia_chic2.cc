@@ -32,7 +32,6 @@ using namespace Pythia8;
  
 
 void Init(Pythia*);
-void ROOT_file_creator();
 
 int main(int argc, char* argv[]) {
 
@@ -46,10 +45,10 @@ int main(int argc, char* argv[]) {
   }
 
   char fn[1024];
-  sprintf(fn, "%s", "TTree_test.root");
+  sprintf(fn, "%s", "AliEvent_class_data.root");
   TFile* outFile = new TFile(fn, "RECREATE");
   
-  TTree *test_tree = new TTree("Tree", "Test_tree");
+  TTree *test_tree = new TTree("AliEvent_data", "AliEvent_class_data");
   test_tree->SetMaxTreeSize(1000000000);
 
   AliEvent* General_event = new AliEvent;
@@ -86,6 +85,8 @@ int main(int argc, char* argv[]) {
   const int idJpsi         =  443;
   const int idElectron     =  11;
   const int idPhoton       =  22;
+  const int idK0L          =  130;
+  const int idn            =  2112;
   
   int nEvent2Print = 10;
 
@@ -99,6 +100,9 @@ int main(int argc, char* argv[]) {
     int number_of_positrons = 0;
     int number_of_photons   = 0;
 
+    std::vector<AliParticle> charged_particle;
+    std::vector<AliParticle> neutral_particle;
+
 
     //print first nEvent2Print events
     if (iEvent2Print < nEvent2Print) //pythia.event.list();
@@ -111,6 +115,40 @@ int main(int argc, char* argv[]) {
       
       if (fabs(pythia.event[i].eta()) > 4.){
 	continue;
+      }
+      
+      if(pythia.event[i].isCharged()){
+	AliParticle charged_tmp;
+	charged_tmp.px = pythia.event[i].px();
+	charged_tmp.py = pythia.event[i].py();
+	charged_tmp.pz = pythia.event[i].pz();
+	charged_tmp.p0 = pythia.event[i].e();
+	charged_tmp.id = pythia.event[i].id();
+	charged_tmp.number_in_event = i;
+	charged_tmp.mother_number_in_event = pythia.event[i].mother1();
+	charged_tmp.mother_id = 
+	  pythia.event[charged_tmp.mother_number_in_event].id();
+	charged_tmp.daughter_1_number_in_event =  pythia.event[i].daughter1();
+	charged_tmp.daughter_2_number_in_event =  pythia.event[i].daughter2();
+	charged_particle.push_back(charged_tmp);
+      }
+
+      if (pythia.event[i].id() == idK0L ||
+	  pythia.event[i].id() == idn ||
+	  pythia.event[i].id() == -idn){
+	AliParticle neutral_tmp;
+	neutral_tmp.px = pythia.event[i].px();
+	neutral_tmp.py = pythia.event[i].py();
+	neutral_tmp.pz = pythia.event[i].pz();
+	neutral_tmp.p0 = pythia.event[i].e();
+	neutral_tmp.id = pythia.event[i].id();
+	neutral_tmp.number_in_event = i;
+	neutral_tmp.mother_number_in_event = pythia.event[i].mother1();
+	neutral_tmp.mother_id = 
+	  pythia.event[neutral_tmp.mother_number_in_event].id();
+	neutral_tmp.daughter_1_number_in_event =  pythia.event[i].daughter1();
+	neutral_tmp.daughter_2_number_in_event =  pythia.event[i].daughter2();
+	neutral_particle.push_back(neutral_tmp);
       }
 
       if (pythia.event[i].id() == idChic0 ||
@@ -157,10 +195,8 @@ int main(int argc, char* argv[]) {
     } // End of particle loop
     General_event->chic = chi_c;
     General_event->Jpsi = Jpsi;
-    
-    AliParticle electrons[1000];
-    AliParticle positrons[1000];
-    AliParticle photons[2000];
+  
+
     std::vector<AliParticle> electr;
     std::vector<AliParticle> positr;
     std::vector<AliParticle> phots;
@@ -187,21 +223,6 @@ int main(int argc, char* argv[]) {
 	    pythia.event[i].daughter2();
 	  elec++;
 	  electr.push_back(electron_tmp);
-	  // electrons[elec].px = pythia.event[i].px();
-	  // electrons[elec].py = pythia.event[i].py();
-	  // electrons[elec].pz = pythia.event[i].pz();
-	  // electrons[elec].p0 = pythia.event[i].e();
-	  // electrons[elec].id = pythia.event[i].id();
-	  // electrons[elec].number_in_event = i;
-	  // electrons[elec].mother_number_in_event = pythia.event[i].mother1();
-	  // electrons[elec].mother_id = 
-	  //   pythia.event[electrons[elec].mother_number_in_event].id();
-	  // electrons[elec].daughter_1_number_in_event = 
-	  //   pythia.event[i].daughter1();
-	  // electrons[elec].daughter_2_number_in_event = 
-	  //   pythia.event[i].daughter2();
-	  // elec++;
-	  // electr.push_back(electrons[elec]);
 	}
       }
     } 
@@ -224,21 +245,6 @@ int main(int argc, char* argv[]) {
 	    pythia.event[i].daughter2();
 	  posi++;
 	  positr.push_back(positron_tmp);
-    	  // positrons[posi].px = pythia.event[i].px();
-    	  // positrons[posi].py = pythia.event[i].py();
-    	  // positrons[posi].pz = pythia.event[i].pz();
-    	  // positrons[posi].p0 = pythia.event[i].e();
-    	  // positrons[posi].id = pythia.event[i].id();
-    	  // positrons[posi].number_in_event = i;
-    	  // positrons[posi].mother_number_in_event = pythia.event[i].mother1();
-    	  // positrons[posi].mother_id = 
-    	  //   pythia.event[positrons[posi].mother_number_in_event].id();
-    	  // positrons[posi].daughter_1_number_in_event = 
-    	  //   pythia.event[i].daughter1();
-    	  // positrons[posi].daughter_2_number_in_event = 
-    	  // pythia.event[i].daughter2();
-    	  // posi++;
-	  // positr.push_back(positrons[posi]);
     	}
       }
     }
@@ -261,27 +267,14 @@ int main(int argc, char* argv[]) {
 	    pythia.event[i].daughter2();
 	  phot++;
 	  phots.push_back(photon_tmp);
-    	  // photons[phot].px = pythia.event[i].px();
-    	  // photons[phot].py = pythia.event[i].py();
-    	  // photons[phot].pz = pythia.event[i].pz();
-    	  // photons[phot].p0 = pythia.event[i].e();
-    	  // photons[phot].id = pythia.event[i].id();
-    	  // photons[phot].number_in_event = i;
-    	  // photons[phot].mother_number_in_event = pythia.event[i].mother1();
-    	  // photons[phot].mother_id = 
-    	  //   pythia.event[photons[phot].mother_number_in_event].id();
-    	  // photons[phot].daughter_1_number_in_event = 
-    	  //   pythia.event[i].daughter1();
-    	  // photons[phot].daughter_2_number_in_event = 
-    	  //   pythia.event[i].daughter2();
-    	  // phot++;
-	  // phots.push_back(photons[phot]);
     	}
       }
     }
     General_event->electrons = electr;
     General_event->positrons = positr;
     General_event->photons = phots;
+    General_event->charged = charged_particle;
+    General_event->neutral = neutral_particle;
     test_tree->Fill();
 
   } // End of event loop
@@ -290,6 +283,22 @@ int main(int argc, char* argv[]) {
   test_tree->Print();
   test_tree->Write();
   outFile->Close();
+
+  TH1F *hCross_section_hist = new TH1F("hCross_section_hist", "xsection and ntrials data", 2, 0., 1.);
+
+
+  double xsection = pythia.info.sigmaGen();
+  int ntrials  = pythia.info.nAccepted();
+
+  hCross_section_hist->SetBinContent(1, xsection);
+  hCross_section_hist->SetBinContent(2, ntrials);  
+  
+  TFile* cross_section_data = new TFile("Cross_section_data.root", "RECREATE");
+  cross_section_data->cd();
+  
+  hCross_section_hist->Write();
+  cross_section_data->Close();
   
   return 0;
+
 }
